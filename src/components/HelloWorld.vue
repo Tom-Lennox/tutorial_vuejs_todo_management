@@ -1,85 +1,28 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
+    <div>
+      <button @click="addTodo">ADD TASK</button>
+      <button @click="removeTodo">DELTETE FINISHED TASKS</button>
+    </div>
+    <p>input: <input v-model="newTodo" placeholder="test"></p>
+    <div class="task-list">
+      <div v-for="todo in todos" 
+        :key="todo.id">
+        <input type="checkbox"
+          @change="toggle(todo)"
+          :checked="todo.done">
+        <span @click="editTodo(todo)">  
+        <del v-if="todo.done">
+          {{ todo.text }}
+        </del>
+        <span v-else>
+          {{ todo.text }}
+        </span>
+        </span>
+      </div>
+    </div>
+    <pre>{{ $data }}</pre>
   </div>
 </template>
 
@@ -88,14 +31,52 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: '*',
+      todos: [
+        {id: 0, text: '0', done: false, edit:false},
+        {id: 1, text: '1', done: false, edit:false},
+        {id: 2, text: '2', done: false, edit:false},
+        {id: 3, text: '3', done: false, edit:false},
+        {id: 4, text: '4', done: true, edit:false},
+      ],
+      maxId: 5,
+      newTodo: ""
     }
-  }
+  },
+  methods: {
+    addTodo: function(event) {
+      if(!this.newTodo) return
+
+      this.todos.push({
+        id:   this.maxId,
+        text: this.newTodo,
+        done: false,
+        edit: false
+      })
+      this.maxId += 1
+      this.newTodo = ''
+    },
+    toggle: function(todo) {
+      todo.done = !todo.done
+    },
+    removeTodo: function(event) {
+      for(let i = this.todos.length - 1; i >= 0; i--) {
+        if(this.todos[i].done) this.todos.splice(i, 1)
+       }
+     },
+     editTodo: function(todo) {
+       if(todo.done) return
+console.log(todo.edit)
+        //選択を外したら（画面の他の部分をタップしたら）editをfalseにしたい。
+       todo.edit = !todo.edit
+     }
+  },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
+/*
 h1, h2 {
   font-weight: normal;
 }
@@ -109,5 +90,27 @@ li {
 }
 a {
   color: #42b983;
+}
+*/
+@mixin flex-vender() {
+  display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+}
+.task-list {
+  @include flex-vender;
+  flex-direction: column;
+  align-items: center;
+  &__item {
+    width: 270px;
+    text-align: left;
+    $element: #{&};
+    &--checked {
+      @extend #{$element};
+      color: #85a6c6;
+    }
+  }
 }
 </style>
