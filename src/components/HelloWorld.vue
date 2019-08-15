@@ -6,19 +6,22 @@
       <button @click="removeTodo">DELTETE FINISHED TASKS</button>
     </div>
     <p>input: <input v-model="newTodo" placeholder="test"></p>
+    <input type="date"/>
     <div class="task-list">
-      <div v-for="todo in todos" 
+      <div class="task"
+        v-for="todo in todos" 
         :key="todo.id">
         <input type="checkbox"
           @change="toggle(todo)"
           :checked="todo.done">
         <span @click="editTodo(todo)">  
-        <del v-if="todo.done">
-          {{ todo.text }}
-        </del>
-        <span v-else>
-          {{ todo.text }}
-        </span>
+          <del v-if="todo.done">
+            {{ todo.text }}
+          </del>
+          <input v-model="todo.text" v-else-if="todo.edit" class="task-text">
+          <span v-else>
+            {{ todo.text }}
+          </span>
         </span>
       </div>
     </div>
@@ -33,11 +36,11 @@ export default {
     return {
       msg: '*',
       todos: [
-        {id: 0, text: '0', done: false, edit:false},
-        {id: 1, text: '1', done: false, edit:false},
-        {id: 2, text: '2', done: false, edit:false},
-        {id: 3, text: '3', done: false, edit:false},
-        {id: 4, text: '4', done: true, edit:false},
+        {id: 0, text: '0', done: false, edit:true},
+        {id: 1, text: '1', done: false, edit:true},
+        {id: 2, text: '2', done: false, edit:true},
+        {id: 3, text: '3', done: false, edit:true},
+        {id: 4, text: '4', done: true, edit:true},
       ],
       maxId: 5,
       newTodo: ""
@@ -66,10 +69,19 @@ export default {
      },
      editTodo: function(todo) {
        if(todo.done) return
-console.log(todo.edit)
-        //選択を外したら（画面の他の部分をタップしたら）editをfalseにしたい。
-       todo.edit = !todo.edit
-     }
+       //console.log(todo.edit)
+       todo.edit = true
+     },
+    //  fixTodo: function() {
+    //     this.todos.forEach(function (item) {
+    //     console.log(item);
+    // });
+    //     fixTodo: function() {
+    //     this.todos.map(function (obj) {
+    //     console.log(obj.edit);
+    //     obj.edit = false
+    //   });
+    //  }
   },
 }
 </script>
@@ -102,7 +114,8 @@ a {
 .task-list {
   @include flex-vender;
   flex-direction: column;
-  align-items: center;
+  // align-items: center;
+  padding: 0 20vw;
   &__item {
     width: 270px;
     text-align: left;
@@ -112,5 +125,14 @@ a {
       color: #85a6c6;
     }
   }
+}
+pre {
+  text-align: left;
+}
+.task-text {
+  border: none;
+}
+.task {
+  text-align: left;   
 }
 </style>
