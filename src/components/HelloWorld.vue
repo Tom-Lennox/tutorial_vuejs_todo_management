@@ -134,6 +134,7 @@ pre {
 }
 .task-text {
   border: none;
+  font-size: 1rem;
 }
 .task {
   text-align: left;   
