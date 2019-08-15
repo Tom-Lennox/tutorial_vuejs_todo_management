@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <p>input: <input v-model="newTodo" placeholder="test" class="addText"></p>
+    <p>input: <input v-model="newTodo" placeholder="test" @keypress="applyTodo" class="addText"></p>
     <div>
       <div class="btn-class"
         @click="addTodo"><p class="btn-name">追加</p></div>
@@ -19,7 +19,10 @@
           <del v-if="todo.done">
             {{ todo.text }}
           </del>
-          <input v-model="todo.text" v-else-if="todo.edit" class="task-text">
+          <input 
+            v-model="todo.text" 
+            v-else-if="todo.edit" 
+            class="task-text">
           <span v-else>
             {{ todo.text }}
           </span>
@@ -73,6 +76,12 @@ export default {
        //console.log(todo.edit)
        todo.edit = true
      },
+     applyTodo: function(keyCode) {
+       //console.log(keyCode.charCode)
+        if(keyCode.charCode === 13) {
+          this.addTodo()
+        }
+     }
     //  fixTodo: function() {
     //     this.todos.forEach(function (item) {
     //     console.log(item);
