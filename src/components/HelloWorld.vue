@@ -1,12 +1,13 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <p>input: <input v-model="newTodo" placeholder="test" class="addText"></p>
     <div>
-      <button @click="addTodo">ADD TASK</button>
-      <button @click="removeTodo">DELTETE FINISHED TASKS</button>
+      <div class="btn-class"
+        @click="addTodo"><p class="btn-name">追加</p></div>
+      <div class="btn-class"
+        @click="removeTodo"><p class="btn-name">削除</p></div>
     </div>
-    <p>input: <input v-model="newTodo" placeholder="test"></p>
-    <input type="date"/>
     <div class="task-list">
       <div class="task"
         v-for="todo in todos" 
@@ -25,7 +26,7 @@
         </span>
       </div>
     </div>
-    <pre>{{ $data }}</pre>
+    <!-- <pre>{{ $data }}</pre> -->
   </div>
 </template>
 
@@ -40,7 +41,7 @@ export default {
         {id: 1, text: '1', done: false, edit:true},
         {id: 2, text: '2', done: false, edit:true},
         {id: 3, text: '3', done: false, edit:true},
-        {id: 4, text: '4', done: true, edit:true},
+        {id: 4, text: '4', done: true, edit:false}
       ],
       maxId: 5,
       newTodo: ""
@@ -115,7 +116,9 @@ a {
   @include flex-vender;
   flex-direction: column;
   // align-items: center;
-  padding: 0 20vw;
+  padding-top:1rem;
+  padding-bottom:10rem;
+  padding-left:38vw;
   &__item {
     width: 270px;
     text-align: left;
@@ -134,5 +137,24 @@ pre {
 }
 .task {
   text-align: left;   
+}
+.btn-class {
+    width: 10%;
+    border-radius: 5px;
+    background: #a2bfda;
+    display: inline-block;
+    height: 30px;
+}
+.btn-class p {
+  line-height: 30px;
+  margin: 0;
+}
+.addText {
+  height: 1.5rem;
+  border: 0px solid #000000;
+  border-bottom: 2px solid #555555;
+}
+.addText:hover {
+  background-color: #908bdd80;
 }
 </style>
