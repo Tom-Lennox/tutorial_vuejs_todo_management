@@ -154,6 +154,13 @@ pre {
     background: #a2bfda;
     display: inline-block;
     height: 30px;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all  0.3s ease;
+}
+.btn-class:hover {
+    background: #ffc9d7;
 }
 .btn-class p {
   line-height: 30px;
